@@ -10,6 +10,6 @@ public class BlockDeclarationParselet : Parselet<BlockDeclaration> {
 		Identifier name = cursor.GetIdentifier();
 		BlockBody body = BlockBodyParselet.Instance.Read(cursor);
 
-		return new BlockDeclaration {BlockKeyword = blockKeyword, Name = name, Body = body};
+		return new BlockDeclaration { BlockKeyword = blockKeyword, Name = name, Body = body };
 	}
 }

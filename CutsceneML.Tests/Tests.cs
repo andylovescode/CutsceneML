@@ -22,8 +22,8 @@ public class Tests {
 		Token[] tokens = [.. lexer.Lex()];
 
 		Assert.IsEmpty(lexer.Errors);
-		
-		Parser.AST.Parser parser = new() {Tokens = tokens};
+
+		Parser.AST.Parser parser = new() { Tokens = tokens };
 
 		File? file = parser.ParseFile();
 		Assert.NotNull(file);
@@ -33,28 +33,28 @@ public class Tests {
 
 		Console.WriteLine(file);
 	}
-	
+
 	[Test]
 	public void BasicCompilation() {
 		Lexer lexer = new("block main { albert: \"Hello, my name is albert!\" } block other {}",
 			"main.cml");
 		Token[] tokens = [.. lexer.Lex()];
 		Assert.IsEmpty(lexer.Errors);
-		
-		Parser.AST.Parser parser = new() {Tokens = tokens};
+
+		Parser.AST.Parser parser = new() { Tokens = tokens };
 
 		File? file = parser.ParseFile();
 		Assert.NotNull(file);
-		
+
 		parser.AssertNoErrors();
 		file.AssertContinuous();
-		
+
 		Console.WriteLine(file);
 
 		FundamentalCompiler compiler = new FundamentalCompiler();
-		
+
 		compiler.CompileFile(file);
-		
+
 		Console.WriteLine(compiler.Result);
 	}
 }

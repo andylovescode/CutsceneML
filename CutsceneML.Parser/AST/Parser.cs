@@ -18,7 +18,7 @@ public class Parser {
 	}
 
 	public File? ParseFile() {
-		Cursor cursor = new() {Tokens = Tokens};
+		Cursor cursor = new() { Tokens = Tokens };
 
 		try {
 			File result = FileParselet.Instance.Read(cursor);

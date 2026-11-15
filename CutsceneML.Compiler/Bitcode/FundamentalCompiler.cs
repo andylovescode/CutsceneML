@@ -6,7 +6,7 @@ namespace CutsceneML.Compiler.Bitcode;
 
 public class FundamentalCompiler {
 	public readonly Unit Result = new Unit();
-	private Dictionary<string, int> SymbolTable = new ();
+	private Dictionary<string, int> SymbolTable = new();
 	private int FirstUnallocatedSymbol;
 	public readonly List<Error> Errors = [];
 
@@ -25,7 +25,7 @@ public class FundamentalCompiler {
 	private BasicBlock CompileBlock(BlockBody body) {
 		BasicBlock result = new();
 		string? actor = null;
-		
+
 		foreach (Statement statement in body.Statements) {
 			switch (statement) {
 				case ChangeActorStatement actorStatement:

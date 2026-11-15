@@ -1,19 +1,15 @@
 ﻿root = true
 
-end_of_line = lf
-
-indent_style = tab
-
-tab_width = 4
-
-trim_trailing_whitespace = true
-
-insert_final_newline = true
-
-max_line_length = 80
-
 # C# files
 [*.cs]
+
+end_of_line = lf
+indent_style = tab
+tab_width = 4
+trim_trailing_whitespace = true
+max_line_length = 80
+insert_final_newline = false
+csharp_insert_final_newline = false
 
 # code style things
 csharp_style_prefer_top_level_statements = false

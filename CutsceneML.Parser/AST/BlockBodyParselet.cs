@@ -10,6 +10,6 @@ public class BlockBodyParselet : Parselet<BlockBody> {
 		Statement[] statements = ListOf(StatementParselet.Instance, '}').Read(cursor);
 		SymbolLiteral closeBracket = cursor.GetSymbol('}');
 
-		return new BlockBody {StartBracket = openBracket, Statements = statements, EndBracket = closeBracket};
+		return new BlockBody { StartBracket = openBracket, Statements = statements, EndBracket = closeBracket };
 	}
 }

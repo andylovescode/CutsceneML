@@ -8,6 +8,6 @@ public class SayStatementParselet : Parselet<SayStatement> {
 	public override SayStatement Read(Cursor cursor) {
 		SpeechLiteral speech = cursor.GetSpeech();
 
-		return new SayStatement {Speech = speech};
+		return new SayStatement { Speech = speech };
 	}
 }

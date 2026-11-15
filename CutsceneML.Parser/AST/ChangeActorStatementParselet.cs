@@ -9,6 +9,6 @@ public class ChangeActorStatementParselet : Parselet<ChangeActorStatement> {
 		Identifier actorName = cursor.GetIdentifier();
 		SymbolLiteral colon = cursor.GetSymbol(':');
 
-		return new ChangeActorStatement {ActorName = actorName, Colon = colon};
+		return new ChangeActorStatement { ActorName = actorName, Colon = colon };
 	}
 }

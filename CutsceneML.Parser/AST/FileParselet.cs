@@ -10,6 +10,6 @@ public class FileParselet : Parselet<File> {
 			decls.Add(OneOf(BlockDeclarationParselet.Instance).Read(cursor));
 		}
 
-		return new File {Declarations = [.. decls]};
+		return new File { Declarations = [.. decls] };
 	}
 }
