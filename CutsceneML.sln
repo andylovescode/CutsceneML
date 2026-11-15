@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CutsceneML.Tests", "CutsceneML.Tests\CutsceneML.Tests.csproj", "{6FDF7D5B-3A3C-415D-BC79-45D51F8ECDA8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CutsceneML.Parser", "CutsceneML.Parser\CutsceneML.Parser.csproj", "{204DB56E-EEE9-4F29-8ADA-E174AA81647A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CutsceneML.Compiler", "CutsceneML.Compiler\CutsceneML.Compiler.csproj", "{4D51C3DC-8385-4067-A9F7-37875D72CB8B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6FDF7D5B-3A3C-415D-BC79-45D51F8ECDA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FDF7D5B-3A3C-415D-BC79-45D51F8ECDA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FDF7D5B-3A3C-415D-BC79-45D51F8ECDA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FDF7D5B-3A3C-415D-BC79-45D51F8ECDA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{204DB56E-EEE9-4F29-8ADA-E174AA81647A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{204DB56E-EEE9-4F29-8ADA-E174AA81647A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{204DB56E-EEE9-4F29-8ADA-E174AA81647A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{204DB56E-EEE9-4F29-8ADA-E174AA81647A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D51C3DC-8385-4067-A9F7-37875D72CB8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D51C3DC-8385-4067-A9F7-37875D72CB8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D51C3DC-8385-4067-A9F7-37875D72CB8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D51C3DC-8385-4067-A9F7-37875D72CB8B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
