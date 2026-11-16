@@ -36,29 +36,39 @@ public class FundamentalCompiler(ErrorCollector errorCollector) {
 					actor = actorStatement.ActorName.Value;
 					break;
 				case SayStatement say when actor is null:
-					errorCollector.Errors.Add(new Error {
-						Start = say.Start,
-						End = say.End,
-						Title = "No actor was declared",
-					});
+					errorCollector.Errors.Add(
+						new Error {
+							Start = say.Start,
+							End = say.End,
+							Title = "No actor was declared",
+						}
+					);
 					break;
 				case SayStatement say:
-					result.Instructions.Add(new SpeakInstruction {
-						CharacterName = actor,
-						Message = say.Speech.Value,
-						Location = say.Start,
-					});
+					result.Instructions.Add(
+						new SpeakInstruction {
+							CharacterName = actor,
+							Message = say.Speech.Value,
+							Location = say.Start,
+						}
+					);
 					break;
 				case IfStatement conditional:
-					CompileCondition(conditional.Condition, result);
-					result.Instructions.Add(new ConditionalCallInstruction {
-						Location = statement.Start,
-						BlockId = ResolveBlockRef(conditional.Block),
-					});
+					int predicate = CompileCondition(
+						conditional.Condition, result
+					);
+					result.Instructions.Add(
+						new ConditionalCallInstruction {
+							Location = statement.Start,
+							PredicateRegister = predicate,
+							BlockId = ResolveBlockRef(conditional.Block),
+						}
+					);
 					break;
 				default:
-					throw new Exception("Cannot compile statement of " +
-										statement);
+					throw new Exception(
+						"Cannot compile statement of " + statement
+					);
 			}
 		}
 
@@ -78,14 +88,18 @@ public class FundamentalCompiler(ErrorCollector errorCollector) {
 		}
 	}
 
-	private void CompileCondition(Condition predicate, BasicBlock block) {
+	private int CompileCondition(Condition predicate, BasicBlock block) {
+		int register = AllocateSymbol();
 		switch (predicate) {
 			case FlagCondition flag:
-				block.Instructions.Add(new PushFlagInstruction {
-					Flag = flag.Name.Value,
-					Location = flag.Start,
-				});
-				return;
+				block.Instructions.Add(
+					new LoadFlagInstruction {
+						Flag = flag.Name.Value,
+						Location = flag.Start,
+						Register = register,
+					}
+				);
+				return register;
 			default:
 				throw new Exception("Unsupported condition " + predicate);
 		}
@@ -97,12 +111,14 @@ public class FundamentalCompiler(ErrorCollector errorCollector) {
 				case BlockDeclaration block:
 					int id = GetBlockId(block.Name.Value);
 					if (Result.Blocks.ContainsKey(id)) {
-						errorCollector.Errors.Add(new Error {
-							Start = block.Name.Start,
-							End = block.Name.End,
-							Title =
-								"This block has already been declared in this file",
-						});
+						errorCollector.Errors.Add(
+							new Error {
+								Start = block.Name.Start,
+								End = block.Name.End,
+								Title =
+									"This block has already been declared in this file",
+							}
+						);
 						break;
 					}
 

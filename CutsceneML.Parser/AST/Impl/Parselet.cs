@@ -1,4 +1,4 @@
-﻿namespace CutsceneML.Parser.AST;
+﻿namespace CutsceneML.Parser.AST.Impl;
 
 public abstract class Parselet<TOutput> : IParses<TOutput> {
 	public abstract TOutput Read(Cursor cursor);

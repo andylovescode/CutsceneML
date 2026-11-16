@@ -1,0 +1,15 @@
+﻿block start {
+    albert: "hello"
+    albert: "hihihi"
+    if flag has_key {
+        albert: "wow, nice key!"
+    }
+    if flag has_key {
+        albert: "i really like it"
+    }
+    if flag has_key other_key
+}
+
+block other_key {
+    albert: "its the best key"
+}

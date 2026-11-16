@@ -3,7 +3,7 @@
 using CutsceneML.Model;
 using CutsceneML.Parser.Lex;
 
-namespace CutsceneML.Parser.AST;
+namespace CutsceneML.Parser.AST.Impl;
 
 public class Cursor {
 	public List<Error> Errors = [];

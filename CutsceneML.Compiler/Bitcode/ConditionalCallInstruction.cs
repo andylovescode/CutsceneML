@@ -2,5 +2,8 @@
 
 public class ConditionalCallInstruction : Instruction {
 	public required int BlockId { get; init; }
-	public override string ToString() => "COND_CALL " + BlockId;
+	public required int PredicateRegister { get; init; }
+
+	public override string ToString() =>
+		$"COND_CALL to {BlockId} using {PredicateRegister}";
 }

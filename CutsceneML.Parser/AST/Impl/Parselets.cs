@@ -1,8 +1,8 @@
 ﻿using CutsceneML.Parser.Lex;
 
-namespace CutsceneML.Parser.AST;
+namespace CutsceneML.Parser.AST.Impl;
 
-public class Parselets {
+public static class Parselets {
 	public static readonly Parselet<SayStatement> SayStatement =
 		Parselet.Of(cursor => {
 			SpeechLiteral speech = cursor.GetSpeech();

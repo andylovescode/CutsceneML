@@ -1,7 +1,7 @@
 ﻿using CutsceneML.Model;
 using CutsceneML.Parser.Lex;
 
-namespace CutsceneML.Parser.AST;
+namespace CutsceneML.Parser.AST.Impl;
 
 public class AstParser {
 	public required Token[] Tokens { get; init; }

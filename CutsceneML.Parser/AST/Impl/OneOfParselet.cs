@@ -1,4 +1,4 @@
-﻿namespace CutsceneML.Parser.AST;
+﻿namespace CutsceneML.Parser.AST.Impl;
 
 public class OneOfParselet<T> : Parselet<T> {
 	public required IParses<T>[] Subparselets { get; init; }

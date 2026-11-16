@@ -1,4 +1,4 @@
-﻿namespace CutsceneML.Parser.AST;
+﻿namespace CutsceneML.Parser.AST.Impl;
 
 public class FunctionalParselet<TOutput> : Parselet<TOutput> {
 	public required Func<Cursor, TOutput> Parser { get; init; }

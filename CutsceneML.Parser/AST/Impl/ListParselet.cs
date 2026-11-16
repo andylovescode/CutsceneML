@@ -1,6 +1,6 @@
 ﻿using CutsceneML.Parser.Lex;
 
-namespace CutsceneML.Parser.AST;
+namespace CutsceneML.Parser.AST.Impl;
 
 public class ListParselet<T> : Parselet<T[]> {
 	public required Parselet<T> ItemParselet { get; init; }
