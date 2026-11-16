@@ -1,4 +1,6 @@
-﻿namespace CutsceneML.Parser.AST;
+﻿using CutsceneML.Model;
+
+namespace CutsceneML.Parser.AST;
 
 public interface ITreeNode {
 	Location Start { get; }

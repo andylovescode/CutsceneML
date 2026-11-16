@@ -1,22 +1,23 @@
 ﻿using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
-using CutsceneML.Parser.AST;
+using CutsceneML.Model;
 
 namespace CutsceneML.Parser.Lex;
 
-public class Lexer(string src, string fileName) {
-	private int locationIndex = 0;
-	private int locationLine = 0;
-	private int locationCharacter = 0;
-	private char[] chars = src.ToCharArray();
+public class Lexer(string src, string fileName, ErrorCollector collector) {
+	private readonly char[] chars = src.ToCharArray();
+	private int locationCharacter;
+	private int locationIndex;
+	private int locationLine;
+
+	private Location previousLocation = null!;
+
 	private Location Location => new(
 		fileName, locationLine, locationCharacter
 	);
 
-	public List<Error> Errors = [];
-
-	private Location previousLocation = null!;
+	private bool Eof => locationIndex >= chars.Length;
 
 	private void Next() {
 		previousLocation = Location;
@@ -30,11 +31,7 @@ public class Lexer(string src, string fileName) {
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	private char Peek() {
-		return chars[locationIndex];
-	}
-
-	private bool Eof => locationIndex >= chars.Length;
+	private char Peek() => chars[locationIndex];
 
 	private Token? LexToken() {
 		char indicator = Peek();
@@ -49,10 +46,10 @@ public class Lexer(string src, string fileName) {
 			}
 
 			if (Eof) {
-				Errors.Add(new Error() {
+				collector.Errors.Add(new Error {
 					Start = start,
 					End = Location,
-					Title = "Speech literal does not have an end"
+					Title = "Speech literal does not have an end",
 				});
 			} else {
 				Next();
@@ -61,18 +58,22 @@ public class Lexer(string src, string fileName) {
 			return new SpeechLiteral {
 				Value = value,
 				Start = start,
-				End = previousLocation
+				End = previousLocation,
 			};
-		} else if (char.IsSymbol(indicator) || char.IsPunctuation(indicator)) {
+		}
+
+		if (char.IsSymbol(indicator) || char.IsPunctuation(indicator)) {
 			return new SymbolLiteral {
 				Value = indicator,
 				Start = start,
-				End = start
+				End = start,
 			};
-		} else if (char.IsLetter(indicator)) {
+		}
+
+		if (char.IsLetter(indicator) || indicator == '_') {
 			string value = indicator.ToString();
 
-			while (!Eof && char.IsLetterOrDigit(Peek())) {
+			while (!Eof && (char.IsLetterOrDigit(Peek()) || Peek() == '_')) {
 				value += Peek();
 				Next();
 			}
@@ -80,9 +81,11 @@ public class Lexer(string src, string fileName) {
 			return new Identifier {
 				Value = value,
 				Start = start,
-				End = previousLocation
+				End = previousLocation,
 			};
-		} else if (char.IsNumber(indicator)) {
+		}
+
+		if (char.IsNumber(indicator)) {
 			string value = indicator.ToString();
 
 			while (!Eof && char.IsNumber(Peek())) {
@@ -102,7 +105,7 @@ public class Lexer(string src, string fileName) {
 			return new NumberLiteral {
 				Value = double.Parse(value),
 				Start = start,
-				End = previousLocation
+				End = previousLocation,
 			};
 		}
 
@@ -116,10 +119,12 @@ public class Lexer(string src, string fileName) {
 	}
 
 	public IEnumerable<Token> Lex() {
-		Errors.Clear();
 		while (true) {
 			ConsumeWhitespace();
-			if (Eof) break;
+			if (Eof) {
+				break;
+			}
+
 			Token? token = LexToken();
 			if (token is not null) {
 				yield return token;

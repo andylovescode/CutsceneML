@@ -1,4 +1,4 @@
-﻿using CutsceneML.Parser;
+﻿using CutsceneML.Model;
 
 namespace CutsceneML.Compiler.Bitcode;
 

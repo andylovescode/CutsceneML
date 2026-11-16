@@ -20,8 +20,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\CutsceneML.Compiler\CutsceneML.Compiler.csproj" />
-      <ProjectReference Include="..\CutsceneML.Parser\CutsceneML.Parser.csproj" />
+        <ProjectReference Include="..\CutsceneML.Compiler\CutsceneML.Compiler.csproj"/>
+        <ProjectReference Include="..\CutsceneML.Parser\CutsceneML.Parser.csproj"/>
     </ItemGroup>
 
 </Project>

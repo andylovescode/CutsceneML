@@ -1,4 +1,6 @@
 ﻿using CutsceneML.Compiler.Bitcode;
+using CutsceneML.Model;
+using CutsceneML.Parser.AST;
 using CutsceneML.Parser.Lex;
 
 using File = CutsceneML.Parser.AST.File;
@@ -8,52 +10,63 @@ namespace CutsceneML.Tests;
 public class Tests {
 	[Test]
 	public void BasicLexing() {
-		Lexer lexer = new("1 22 3.14 abc\n {} \"alpha\"", "main.cml");
+		ErrorCollector collector = new();
+
+		Lexer lexer = new("1 22 3.14 a_bc\n {} \"alpha\"", "main.cml",
+			collector);
 
 		foreach (Token token in lexer.Lex()) {
-			Console.WriteLine(token + " start: " + token.Start + " end: " + token.End);
+			Console.WriteLine(token + " start: " + token.Start + " end: " +
+							  token.End);
 		}
+
+		collector.AssertNoErrors();
 	}
 
 	[Test]
 	public void BasicParsing() {
-		Lexer lexer = new("block main { albert: \"Hello, my name is albert!\" } block other {}",
-			"main.cml");
+		ErrorCollector collector = new();
+		Lexer lexer = new(
+			"block main { albert: \"Hello, my name is albert!\" } block other {}",
+			"main.cml", collector);
 		Token[] tokens = [.. lexer.Lex()];
 
-		Assert.IsEmpty(lexer.Errors);
+		AstParser astParser =
+			new() { Tokens = tokens, ErrorCollector = collector };
 
-		Parser.AST.Parser parser = new() { Tokens = tokens };
-
-		File? file = parser.ParseFile();
+		File? file = astParser.ParseFile();
 		Assert.NotNull(file);
 
-		parser.AssertNoErrors();
 		file.AssertContinuous();
+		collector.AssertNoErrors();
 
 		Console.WriteLine(file);
 	}
 
 	[Test]
 	public void BasicCompilation() {
-		Lexer lexer = new("block main { albert: \"Hello, my name is albert!\" } block other {}",
-			"main.cml");
+		ErrorCollector collector = new();
+		Lexer lexer = new(
+			"block start {\n    albert: \"hello\"\n    if flag has_key {\n        albert: \"wow, nice key!\"\n    }\n}",
+			"main.cml", collector);
 		Token[] tokens = [.. lexer.Lex()];
-		Assert.IsEmpty(lexer.Errors);
 
-		Parser.AST.Parser parser = new() { Tokens = tokens };
+		AstParser astParser =
+			new() { Tokens = tokens, ErrorCollector = collector };
 
-		File? file = parser.ParseFile();
+		File? file = astParser.ParseFile();
+
+		collector.AssertNoErrors();
+
 		Assert.NotNull(file);
-
-		parser.AssertNoErrors();
 		file.AssertContinuous();
 
 		Console.WriteLine(file);
 
-		FundamentalCompiler compiler = new FundamentalCompiler();
+		FundamentalCompiler compiler = new(collector);
 
 		compiler.CompileFile(file);
+		collector.AssertNoErrors();
 
 		Console.WriteLine(compiler.Result);
 	}

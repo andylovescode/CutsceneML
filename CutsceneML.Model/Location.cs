@@ -1,4 +1,4 @@
-﻿namespace CutsceneML.Parser;
+﻿namespace CutsceneML.Model;
 
 public record class Location(
 	string File,
@@ -14,7 +14,8 @@ public record class Location(
 			return 1;
 		}
 
-		int fileComparison = string.Compare(File, other.File, StringComparison.Ordinal);
+		int fileComparison =
+			string.Compare(File, other.File, StringComparison.Ordinal);
 		if (fileComparison != 0) {
 			return fileComparison;
 		}

@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics;
 
+using CutsceneML.Model;
+
 namespace CutsceneML.Parser.AST;
 
 public closed class Tree : ITreeNode {
@@ -8,7 +10,8 @@ public closed class Tree : ITreeNode {
 	public Location End => Children[^1].End;
 
 	public void AssertContinuous() {
-		IEnumerable<Location> locs = Children.SelectMany(it => (IEnumerable<Location>)[it.Start, it.End]);
+		IEnumerable<Location> locs = Children.SelectMany(it =>
+			(IEnumerable<Location>)[it.Start, it.End]);
 
 		Location? previousLocation = null;
 
@@ -21,7 +24,8 @@ public closed class Tree : ITreeNode {
 			int delta = location.CompareTo(previousLocation);
 
 			Debug.Assert(delta >= 0,
-				"The AST node " + ToString() + " is not continuous, " + location + " comes before " + previousLocation);
+				"The AST node " + ToString() + " is not continuous, " +
+				location + " comes before " + previousLocation);
 
 			previousLocation = location;
 		}
@@ -33,5 +37,6 @@ public closed class Tree : ITreeNode {
 		}
 	}
 
-	public override string ToString() => $"{GetType().Name} ({string.Join(", ", Children)})";
+	public override string ToString() =>
+		$"{GetType().Name} ({string.Join(", ", Children)})";
 }

@@ -1,4 +1,5 @@
-﻿using CutsceneML.Parser.AST;
+﻿using CutsceneML.Model;
+using CutsceneML.Parser.AST;
 
 namespace CutsceneML.Parser.Lex;
 

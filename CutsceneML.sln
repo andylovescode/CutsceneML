@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CutsceneML.Parser", "Cutsce
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CutsceneML.Compiler", "CutsceneML.Compiler\CutsceneML.Compiler.csproj", "{4D51C3DC-8385-4067-A9F7-37875D72CB8B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CutsceneML.Model", "CutsceneML.Model\CutsceneML.Model.csproj", "{D1D922F4-E465-47B0-B7B9-FCE90E47245B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{4D51C3DC-8385-4067-A9F7-37875D72CB8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D51C3DC-8385-4067-A9F7-37875D72CB8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D51C3DC-8385-4067-A9F7-37875D72CB8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1D922F4-E465-47B0-B7B9-FCE90E47245B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1D922F4-E465-47B0-B7B9-FCE90E47245B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1D922F4-E465-47B0-B7B9-FCE90E47245B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1D922F4-E465-47B0-B7B9-FCE90E47245B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

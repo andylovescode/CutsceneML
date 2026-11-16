@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
+using CutsceneML.Model;
 using CutsceneML.Parser.Lex;
 
 namespace CutsceneML.Parser.AST;
@@ -18,7 +19,11 @@ public class Cursor {
 
 	[DoesNotReturn]
 	public void RaiseError(ITreeNode node, string message) =>
-		RaiseError(new Error { Start = node.Start, End = node.End, Title = message });
+		RaiseError(new Error {
+			Start = node.Start,
+			End = node.End,
+			Title = message,
+		});
 
 	public SymbolLiteral GetSymbol(char symbol) {
 		Token tkn = Next();
@@ -40,7 +45,11 @@ public class Cursor {
 		return (Identifier)tkn;
 	}
 
-	public Cursor Clone() => new() { Location = Location, Tokens = Tokens, Errors = [.. Errors] };
+	public Cursor Clone() => new() {
+		Location = Location,
+		Tokens = Tokens,
+		Errors = [.. Errors],
+	};
 
 	public Token Next() => Tokens[Location++];
 

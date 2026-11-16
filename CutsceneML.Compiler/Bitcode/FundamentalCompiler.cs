@@ -1,24 +1,28 @@
-﻿using CutsceneML.Parser.AST;
+﻿using CutsceneML.Model;
+using CutsceneML.Parser.AST;
 
 using File = CutsceneML.Parser.AST.File;
 
 namespace CutsceneML.Compiler.Bitcode;
 
-public class FundamentalCompiler {
-	public readonly Unit Result = new Unit();
-	private Dictionary<string, int> SymbolTable = new();
-	private int FirstUnallocatedSymbol;
-	public readonly List<Error> Errors = [];
+public class FundamentalCompiler(ErrorCollector errorCollector) {
+	public readonly Unit Result = new();
 
-	private int AllocateSymbol() => FirstUnallocatedSymbol++;
+	private readonly Dictionary<string, int> symbolTable = new() {
+		["start"] = 0,
+	};
+
+	private int firstUnallocatedSymbol = 1;
+
+	private int AllocateSymbol() => firstUnallocatedSymbol++;
 
 	private int GetBlockId(string symbol) {
-		if (SymbolTable.TryGetValue(symbol, out int value)) {
+		if (symbolTable.TryGetValue(symbol, out int value)) {
 			return value;
 		}
 
 		int sym = AllocateSymbol();
-		SymbolTable[symbol] = sym;
+		symbolTable[symbol] = sym;
 		return sym;
 	}
 
@@ -32,23 +36,59 @@ public class FundamentalCompiler {
 					actor = actorStatement.ActorName.Value;
 					break;
 				case SayStatement say when actor is null:
-					Errors.Add(new Error {
+					errorCollector.Errors.Add(new Error {
 						Start = say.Start,
 						End = say.End,
-						Title = "No actor was declared"
+						Title = "No actor was declared",
 					});
-					continue;
+					break;
 				case SayStatement say:
 					result.Instructions.Add(new SpeakInstruction {
 						CharacterName = actor,
 						Message = say.Speech.Value,
-						Location = say.Start
+						Location = say.Start,
 					});
 					break;
+				case IfStatement conditional:
+					CompileCondition(conditional.Condition, result);
+					result.Instructions.Add(new ConditionalCallInstruction {
+						Location = statement.Start,
+						BlockId = ResolveBlockRef(conditional.Block),
+					});
+					break;
+				default:
+					throw new Exception("Cannot compile statement of " +
+										statement);
 			}
 		}
 
 		return result;
+	}
+
+	private int ResolveBlockRef(BlockRef reference) {
+		switch (reference) {
+			case AnonymousBlockRef anon:
+				int id = AllocateSymbol();
+				Result.Blocks[id] = CompileBlock(anon.Body);
+				return id;
+			case NamedBlockRef named:
+				return GetBlockId(named.Name.Value);
+			default:
+				throw new Exception("Unsupported block reference " + reference);
+		}
+	}
+
+	private void CompileCondition(Condition predicate, BasicBlock block) {
+		switch (predicate) {
+			case FlagCondition flag:
+				block.Instructions.Add(new PushFlagInstruction {
+					Flag = flag.Name.Value,
+					Location = flag.Start,
+				});
+				return;
+			default:
+				throw new Exception("Unsupported condition " + predicate);
+		}
 	}
 
 	public void CompileFile(File file) {
@@ -57,13 +97,15 @@ public class FundamentalCompiler {
 				case BlockDeclaration block:
 					int id = GetBlockId(block.Name.Value);
 					if (Result.Blocks.ContainsKey(id)) {
-						Errors.Add(new Error {
+						errorCollector.Errors.Add(new Error {
 							Start = block.Name.Start,
 							End = block.Name.End,
-							Title = "This block has already been declared in this file"
+							Title =
+								"This block has already been declared in this file",
 						});
 						break;
 					}
+
 					Result.Blocks[id] = CompileBlock(block.Body);
 					break;
 			}

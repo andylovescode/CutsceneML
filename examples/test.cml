@@ -1,0 +1,6 @@
+﻿block start {
+    albert: "hello"
+    if flag has_key {
+        albert: "wow, nice key!"
+    }
+}

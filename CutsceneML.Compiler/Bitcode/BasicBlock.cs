@@ -3,5 +3,6 @@
 public class BasicBlock {
 	public List<Instruction> Instructions = [];
 
-	public override string ToString() => $"{nameof(Instructions)}:\n{string.Join("\n", Instructions)}";
+	public override string ToString() =>
+		$"{nameof(Instructions)}:\n{string.Join("\n", Instructions)}";
 }

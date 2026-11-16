@@ -3,5 +3,16 @@
 public class Unit {
 	public Dictionary<int, BasicBlock> Blocks = [];
 
-	public override string ToString() => $"{string.Join("\n----\n", Blocks.Select(it => $"{it.Key}:\n{it.Value}"))}";
+	public override string ToString() {
+		string result = "";
+
+		foreach ((int id, BasicBlock block) in Blocks) {
+			result += $"block {id}:\n";
+			result = block.Instructions.Aggregate(result,
+				(current, inst) =>
+					$"{current}\t{inst} ; {inst.Location}\n");
+		}
+
+		return result;
+	}
 }
