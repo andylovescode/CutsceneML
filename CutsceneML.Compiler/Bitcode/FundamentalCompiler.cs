@@ -65,6 +65,19 @@ public class FundamentalCompiler(ErrorCollector errorCollector) {
 						}
 					);
 					break;
+				case ChoiceStatement choice:
+					result.Instructions.Add(
+						new ShowChooserInstruction {
+							Location = statement.Start,
+							Choices = [
+								.. choice.Choices.Select(
+									it => (ResolveBlockRef(it.Response),
+										it.Text.Value)
+								),
+							],
+						}
+					);
+					break;
 				default:
 					throw new Exception(
 						"Cannot compile statement of " + statement

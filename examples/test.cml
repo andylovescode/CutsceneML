@@ -3,4 +3,10 @@
     if flag has_key {
         albert: "wow, nice key!"
     }
+    choice {
+        "Do nothing" {}
+        "Grab Key" {
+            albert: "Did you take my key?"
+        }
+    }
 }

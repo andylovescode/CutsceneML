@@ -54,7 +54,7 @@ public class Tests {
 	public void BasicCompilation() {
 		ErrorCollector collector = new();
 		Lexer lexer = new(
-			"block start {\n    albert: \"hello\"\n    if flag has_key {\n        albert: \"wow, nice key!\"\n    }\n}",
+			"block start {\n    albert: \"hello\"\n    if flag has_key {\n        albert: \"wow, nice key!\"\n    }\n    choice {\n        \"Do nothing\" {}\n        \"Grab Key\" {\n            albert: \"Did you take my key?\"\n        }\n    }\n}",
 			"main.cml", collector
 		);
 		Token[] tokens = [.. lexer.Lex()];
