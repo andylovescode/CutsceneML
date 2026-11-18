@@ -19,4 +19,4 @@ jobs:
         with:
           user: meganerdandy
       - name: Release
-        run: dotnet nuget push "nupkgs/*.nupkg" --api-key ${{steps.login.outputs.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
+        run: dotnet nuget push "nupkgs/*.nupkg" --api-key ${{steps.login.outputs.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
