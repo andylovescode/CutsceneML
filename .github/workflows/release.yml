@@ -1,0 +1,13 @@
+﻿on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pack
+        run: dotnet pack --output nupkgs
+      - name: Release
+        run: dotnet nuget push "nupkgs/*.nupkg" --source https://api.nuget.org/v3/index.json
